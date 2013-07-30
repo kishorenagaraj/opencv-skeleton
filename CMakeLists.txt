@@ -1,13 +1,12 @@
-
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.3)
 
 # See http://git.libssh.org/projects/libssh.git/tree/ for example of a good project configuration.
 
 # Global vars
 
-SET(CMAKE_PROJECT_NAME "ProjectName")
+SET(CMAKE_PROJECT_NAME "EyeAnalysis")
 
-SET(EXECUTABLE_NAME "Executable")
+SET(EXECUTABLE_NAME "eyeAnalysis")
 
 SET(EXECUTABLE_VERSION_MAJOR "0")
 SET(EXECUTABLE_VERSION_MINOR "0")
@@ -35,15 +34,11 @@ MACRO_ENSURE_OUT_OF_SOURCE_BUILD("${PROJECT_NAME}  requires an out of source bui
 # Another macro used in this project to add sources efficiently.
 INCLUDE(Macro_AddSources)
 
-INCLUDE ( Setup_OGRE )
-
-FIND_PACKAGE ( SDL REQUIRED )
-FIND_PACKAGE ( SDL_image REQUIRED )
-FIND_PACKAGE ( SDL_ttf REQUIRED )
-
 #Add aditional components.
 FIND_PACKAGE ( Boost COMPONENTS serialization system filesystem REQUIRED )
+FIND_PACKAGE ( OpenCV REQUIRED )
 
+# TODO: AMQP
 
 MESSAGE(STATUS "Current built type: ${CMAKE_BUILD_TYPE}")
 MESSAGE(STATUS "Current build type flags: ${CMAKE_CXX_FLAGS_${CMAKE_BUILD_TYPE}}")
@@ -68,11 +63,6 @@ ADD_EXECUTABLE(
 
 TARGET_LINK_LIBRARIES(
     ${EXECUTABLE_NAME}
-    ${SDL_LIBRARY}
-    ${SDLIMAGE_LIBRARY}
-    ${SDLTTF_LIBRARY}
+    ${OpenCV_LIBRARIES}
     ${Boost_LIBRARIES}
-    ${OGRE_LIBRARIES}
 )
-
-INCLUDE( Action_InstallOGRE )
